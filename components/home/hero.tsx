@@ -6,48 +6,54 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-const Hero = () => {
-  const [positionSlider, setPositionSlider] = useState(50);
-  const refSlider = useRef<HTMLDivElement>(null);
-  const enGlissement = useRef(false);
+// Composant principal de la page d'accueil
+const PageAccueil = () => {
+  // État pour gérer la position du curseur de comparaison
+  const [positionCurseur, setPositionCurseur] = useState(50);
+  const refComparateur = useRef<HTMLDivElement>(null);
+  const enDeplacement = useRef(false);
 
-  const gererAppuiSouris = () => {
-    enGlissement.current = true;
+  // Fonctions pour gérer les interactions avec le comparateur d'images
+  const demarrerDeplacement = () => {
+    enDeplacement.current = true;
   };
 
-  const gererRelachementSouris = () => {
-    enGlissement.current = false;
+  const arreterDeplacement = () => {
+    enDeplacement.current = false;
   };
 
-  const gererMouvementSouris = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!enGlissement.current || !refSlider.current) return;
+  // Gestion du déplacement à la souris
+  const gererSouris = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!enDeplacement.current || !refComparateur.current) return;
     
-    const rect = refSlider.current.getBoundingClientRect();
+    const rect = refComparateur.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
     const pourcentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     
-    setPositionSlider(pourcentage);
+    setPositionCurseur(pourcentage);
   };
 
-  const gererMouvementTactile = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!refSlider.current) return;
+  // Gestion du déplacement tactile pour mobile
+  const gererTactile = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!refComparateur.current) return;
     
     const toucher = e.touches[0];
-    const rect = refSlider.current.getBoundingClientRect();
+    const rect = refComparateur.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(toucher.clientX - rect.left, rect.width));
     const pourcentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     
-    setPositionSlider(pourcentage);
+    setPositionCurseur(pourcentage);
   };
 
   useEffect(() => {
-    const gererRelachementGlobal = () => {
-      enGlissement.current = false;
+    // Fonction pour arrêter le déplacement quand on relâche le clic n'importe où
+    const arreterDeplacementGlobal = () => {
+      enDeplacement.current = false;
     };
 
-    window.addEventListener("mouseup", gererRelachementGlobal);
+    window.addEventListener("mouseup", arreterDeplacementGlobal);
     return () => {
-      window.removeEventListener("mouseup", gererRelachementGlobal);
+      window.removeEventListener("mouseup", arreterDeplacementGlobal);
     };
   }, []);
 
@@ -109,14 +115,14 @@ const Hero = () => {
           {/* Colonne droite - Comparaison d'images */}
           <div className="lg:w-1/2 w-full max-w-lg mx-auto lg:max-w-none">
             <div 
-              ref={refSlider}
-              className="image-comparison w-full h-[400px] shadow-xl rounded-xl overflow-hidden"
-              onMouseDown={gererAppuiSouris}
-              onMouseUp={gererRelachementSouris}
-              onMouseMove={gererMouvementSouris}
-              onTouchMove={gererMouvementTactile}
-              onTouchStart={gererAppuiSouris}
-              onTouchEnd={gererRelachementSouris}
+              ref={refComparateur}
+              className="comparateur-images w-full h-[400px] shadow-xl rounded-xl overflow-hidden"
+              onMouseDown={demarrerDeplacement}
+              onMouseUp={arreterDeplacement}
+              onMouseMove={gererSouris}
+              onTouchMove={gererTactile}
+              onTouchStart={demarrerDeplacement}
+              onTouchEnd={arreterDeplacement}
             >
               {/* Image avant */}
               <Image
@@ -130,7 +136,7 @@ const Hero = () => {
               {/* Image après */}
               <div 
                 className="after-image" 
-                style={{ width: `${positionSlider}%` }}
+                style={{ width: `${positionCurseur}%` }}
               >
                 <Image
                   src="/images/before-after/after.jpg"
@@ -144,9 +150,9 @@ const Hero = () => {
               {/* Poignée du slider */}
               <div 
                 className="slider-handle" 
-                style={{ left: `${positionSlider}%` }}
-                onMouseDown={gererAppuiSouris}
-                onTouchStart={gererAppuiSouris}
+                style={{ left: `${positionCurseur}%` }}
+                onMouseDown={demarrerDeplacement}
+                onTouchStart={demarrerDeplacement}
               />
             </div>
             
@@ -161,4 +167,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default PageAccueil;

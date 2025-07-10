@@ -201,15 +201,11 @@ Configurer sur Vercel Dashboard :
 4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
 5. Ouvrir une Pull Request
 
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
 ## 📞 Contact
 
 - **Email** : contact@autoshine.com
 - **GitHub** : [@Chakibprojects](https://github.com/Chakibprojects)
-- **LinkedIn** : [Votre profil LinkedIn]
+- **LinkedIn** : [Chakib Mallem](https://www.linkedin.com/in/chakib-mallemm/)
 
 ## 🙏 Remerciements
 

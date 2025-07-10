@@ -1,18 +1,16 @@
-// Importation des composants de la page d'accueil
-import PageAccueil from "@/components/home/hero";
+import Hero from "@/components/home/hero";
 import Fonctionnalites from "@/components/home/features";
 import Tarifs from "@/components/home/pricing";
 import Temoignages from "@/components/home/testimonials";
 import FAQ from "@/components/home/faq";
 import ContactezNous from "@/components/home/call-to-action";
 
-// Composant principal de la page d'accueil
-export default function PagePrincipale() {
+export default function Home() {
   // Structure de la page avec tous les composants
   return (
     <div className="page-accueil">
       {/* Section héro avec présentation du service */}
-      <PageAccueil />
+      <Hero />
       
       {/* Présentation des fonctionnalités principales */}
       <Fonctionnalites />
